@@ -9,6 +9,13 @@ type element[T any] struct {
 	val  T
 }
 
+func New[T any]() *List[T] {
+	return &List[T]{
+		head: nil,
+		tail: nil,
+	}
+}
+
 func (list *List[T]) Push(v T) {
 	if list.tail == nil {
 		list.head = &element[T]{val: v}
