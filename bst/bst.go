@@ -2,6 +2,7 @@ package bst
 
 import (
 	"fmt"
+	"math"
 )
 
 type BinaryNode struct {
@@ -83,6 +84,22 @@ func (node *BinaryNode) LeftSideView(height int, result *[]int) {
 	if node.right != nil {
 		node.right.RightSideView(height+1, result)
 	}
+}
+
+func (node *BinaryNode) IsValid(min, max int) bool {
+	if node == nil {
+		return true
+	}
+	if node.val <= math.MinInt || node.val >= math.MaxInt {
+		return false
+	}
+	if !node.left.IsValid(min, node.val) {
+		return false
+	}
+	if !node.right.IsValid(node.val, max) {
+		return false
+	}
+	return true
 }
 
 type BST struct {
@@ -203,7 +220,7 @@ func (tree *BST) LevelOrder() [][]int {
 }
 
 func (tree *BST) Height() int {
-	return tree.Depth() + 1
+	return tree.Depth()
 }
 
 func (tree *BST) RightSideView() []int {
@@ -222,4 +239,55 @@ func (tree *BST) LeftSideView() []int {
 	views := make([]int, 0)
 	tree.root.LeftSideView(0, &views)
 	return views
+}
+
+func (tree *BST) nodeExists(idxFind int) bool {
+	var left = 0
+	var height = tree.Height()
+	var upperCount = int(math.Pow(2, float64(height)) - 1)
+	var right = upperCount
+	var level = 0
+	var node = tree.root
+
+	for level < height {
+		mid := int(math.Ceil(float64(left+right) / 2))
+
+		if idxFind >= mid {
+			left = mid
+			node = node.right
+		} else {
+			right = mid
+			node = node.left
+		}
+
+		level++
+	}
+
+	return node != nil
+}
+
+func (tree *BST) CountNodes() int {
+	var left = 0
+	var height = tree.Height()
+	var upperCount = int(math.Pow(2, float64(height)) - 1)
+	var right = upperCount
+	var mid = 0
+
+	for left < right {
+		mid = int(math.Ceil(float64(left+right) / 2))
+
+		if tree.nodeExists(mid) {
+			left = mid
+		} else {
+			right = mid - 1
+		}
+	}
+	return upperCount + left + 1
+}
+
+func (tree *BST) IsValid() bool {
+	if tree.root == nil {
+		return true
+	}
+	return tree.root.IsValid(math.MinInt, math.MaxInt)
 }
