@@ -5,6 +5,7 @@ import (
 
 	"github.com/boyuan459/algo/bst"
 	"github.com/boyuan459/algo/graph"
+	"github.com/boyuan459/algo/list"
 )
 
 func main() {
@@ -39,4 +40,17 @@ func main() {
 	fmt.Println("count", count)
 	var valid = tree.IsValid()
 	fmt.Println("valid", valid)
+
+	list := list.New[int]()
+	list.PushBack(1)
+	list.PushBack(2)
+	list.PushBack(3)
+	list.PushBack(4)
+	list.PushBack(5)
+	fmt.Println("list", list)
+	list.Print()
+	// list.Reverse()
+	list.ReverseBetween(2, 4)
+	list.PushBack(6)
+	list.Print()
 }
