@@ -39,6 +39,10 @@ func (list *List[T]) PushFront(v T) {
 	}
 }
 
+func (list List[T]) Current() *element[T] {
+	return list.tail
+}
+
 func (list *List[T]) Reverse() {
 	var pre *element[T] = nil
 	var current = list.head
@@ -99,4 +103,37 @@ func (list *List[T]) Print() {
 		ele = ele.next
 	}
 	fmt.Println()
+}
+
+func (list *List[T]) IsAcyclic() *element[T] {
+	var tortoise = list.head
+	var hare = list.head
+
+	for true {
+		tortoise = tortoise.next
+		hare = hare.next
+
+		if hare != nil {
+			hare = hare.next
+		}
+
+		// tortoise and hare can reach end, so it's acyclic
+		if tortoise == nil || hare == nil {
+			return nil
+		}
+
+		if tortoise == hare {
+			break
+		}
+	}
+
+	var p1 = list.head
+	var p2 = hare
+
+	for p1 != p2 {
+		p1 = p1.next
+		p2 = p2.next
+	}
+
+	return p1
 }

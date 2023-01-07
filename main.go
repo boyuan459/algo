@@ -53,4 +53,6 @@ func main() {
 	list.ReverseBetween(2, 4)
 	list.PushBack(6)
 	list.Print()
+	acyclic := list.IsAcyclic()
+	fmt.Println("acyclic", acyclic)
 }
