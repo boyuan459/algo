@@ -17,7 +17,7 @@ import (
 func main() {
 	graph := graph.New(8)
 	list := list.New[int]()
-	list.Push(10)
+	list.PushBack(10)
 	fmt.Println("graph:", graph)
 	fmt.Println("list:", list)
 }
