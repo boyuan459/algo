@@ -5,6 +5,11 @@ import "testing"
 func TestGraph1D(t *testing.T) {
 	graph := New(8)
 	graph.BuildWith1D([]int{2, 2, 4, 6, -1, 4, 4, 5})
+	time := graph.NumOfMinutes(4, []int{0, 0, 4, 0, 7, 3, 6, 0})
+	t.Log("num of minutes", time)
+	if time != 13 {
+		t.Errorf("expected value 13, got %v", time)
+	}
 }
 
 func TestGraph2D(t *testing.T) {

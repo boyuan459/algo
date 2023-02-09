@@ -53,3 +53,17 @@ func (graph *Graph) AcyclicTopologicalSort() bool {
 
 	return count == graph.length
 }
+
+func (graph *Graph) NumOfMinutes(headID int, informTime []int) int {
+	if len(graph.adjList[headID]) == 0 {
+		return 0
+	}
+	var max = 0
+	for _, conn := range graph.adjList[headID] {
+		var time = graph.NumOfMinutes(conn, informTime)
+		if time > max {
+			max = time
+		}
+	}
+	return max + informTime[headID]
+}
