@@ -23,8 +23,17 @@ func TestBSTDepth(t *testing.T) {
 	tree.Insert(9)
 	tree.Insert(18)
 	var depth = tree.Depth()
-	if depth != 2 {
-		t.Errorf("expected 2, got %v", depth)
+	if depth != 3 {
+		t.Errorf("expected 3, got %v", depth)
+	}
+}
+
+func TestBSTDepthWithArray(t *testing.T) {
+	tree := New()
+	tree.InsertArray([]int{3, 9, 20, -1, -1, 15, 7})
+	var depth = tree.Depth()
+	if depth != 3 {
+		t.Errorf("expected 3, got %v", depth)
 	}
 }
 

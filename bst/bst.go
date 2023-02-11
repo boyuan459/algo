@@ -40,8 +40,11 @@ func (node *BinaryNode) Insert(val int) bool {
 }
 
 func (node *BinaryNode) Depth() int {
-	if node.left == nil && node.right == nil {
+	if node == nil {
 		return 0
+	}
+	if node.left == nil && node.right == nil {
+		return 1
 	}
 	var left, right = 0, 0
 	if node.left != nil {
@@ -120,46 +123,53 @@ func (tree *BST) Insert(val int) {
 	}
 }
 
-// insert array not working properly
-/*
-func (tree *BST) InsertArray(values []int) {
-	if len(values) == 0 {
-		return
+// Create a BST with array, -1 means the nil value
+func (tree *BST) InsertArray(nums []int) *BinaryNode {
+	if len(nums) == 0 {
+		tree.root = nil
+		return tree.root
 	}
-	root := NewNode(values[0])
+
+	tree.root = NewNode(nums[0])
+
 	var count = 1
-	queue := make([]BinaryNode, 0)
-	queue = append(queue, *root)
-	fmt.Println("queue", queue)
+	var length = len(nums)
+	queue := []*BinaryNode{}
+	queue = append(queue, tree.root)
 
-	for len(queue) > 0 {
-		var node = queue[0]
+	for len(queue) > 0 && count < length {
+		var current = queue[0]
 		queue = queue[1:]
-		fmt.Println("queue", queue)
-		fmt.Println("current", node)
-		node.left = NewNode(values[count])
-		count++
-		if count >= len(values) {
-			return
-		}
-		if node.left != nil {
-			queue = append(queue, *node.left)
+
+		if current.left == nil {
+			if nums[count] != -1 {
+				current.left = NewNode(nums[count])
+			}
+			count += 1
+			if current.left != nil {
+				queue = append(queue, current.left)
+			}
+			if count >= length {
+				break
+			}
 		}
 
-		node.right = NewNode(values[count])
-		fmt.Println("current node", node)
-		count++
-		if count >= len(values) {
-			return
+		if current.right == nil {
+			if nums[count] != -1 {
+				current.right = NewNode(nums[count])
+			}
+			count += 1
+			if current.right != nil {
+				queue = append(queue, current.right)
+			}
+			if count >= length {
+				break
+			}
 		}
-		if node.right != nil {
-			queue = append(queue, *node.right)
-		}
-		fmt.Println("queue", queue)
 	}
-	tree.root = root
+
+	return tree.root
 }
-*/
 
 func (tree *BST) preorder(node *BinaryNode, depth int) {
 	if node == nil {
