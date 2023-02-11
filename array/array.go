@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// TwoSum calculates the index of the nums array, and the target
+// is the sum
 func TwoSum(nums []int, target int) []int {
 	sum := make(map[int]int)
 
