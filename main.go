@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/boyuan459/algo/bin_tree"
 	"github.com/boyuan459/algo/bst"
 	"github.com/boyuan459/algo/graph"
 	"github.com/boyuan459/algo/list"
@@ -55,4 +56,8 @@ func main() {
 	list.Print()
 	acyclic := list.IsAcyclic()
 	fmt.Println("acyclic", acyclic)
+
+	bintree := bin_tree.New()
+	bintree.Insert([]int{3, 9, 20, -1, -1, 15, 7})
+	bintree.Print()
 }
