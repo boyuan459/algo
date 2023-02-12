@@ -1,6 +1,7 @@
 package bin_tree
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -32,5 +33,20 @@ func TestCompleteBinTreeCountNodes(t *testing.T) {
 	count := tree.CountNodes()
 	if count != 9 {
 		t.Errorf("expected 9, but got %v", count)
+	}
+}
+
+func TestLevelOrder(t *testing.T) {
+	tree := New()
+	tree.Insert([]int{3, 9, 20, -1, -1, 15, 7})
+
+	levelOrder := tree.LevelOrder()
+
+	expected := [][]int{{3}, {9, 20}, {15, 7}}
+
+	t.Logf("expected %v", expected)
+
+	if reflect.DeepEqual(levelOrder, expected) {
+		t.Errorf("expected [[3],[9,20],[15,7]], but got %v", levelOrder)
 	}
 }

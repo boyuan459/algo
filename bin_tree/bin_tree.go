@@ -75,7 +75,7 @@ func (tree *BinTree) Insert(values []int) *BinNode {
 	return tree.root
 }
 
-func (tree *BinTree) print(node *BinNode, depth int) {
+func (tree BinTree) print(node *BinNode, depth int) {
 	if node.left != nil {
 		tree.print(node.left, depth+1)
 	}
@@ -89,11 +89,11 @@ func (tree *BinTree) print(node *BinNode, depth int) {
 	}
 }
 
-func (tree *BinTree) Print() {
+func (tree BinTree) Print() {
 	tree.print(tree.root, 0)
 }
 
-func (tree *BinTree) depth(node *BinNode) int {
+func (tree BinTree) depth(node *BinNode) int {
 	if node == nil {
 		return 0
 	}
@@ -109,25 +109,25 @@ func (tree *BinTree) depth(node *BinNode) int {
 	return rightDepth
 }
 
-func (tree *BinTree) Depth() int {
+func (tree BinTree) Depth() int {
 	return tree.depth(tree.root)
 }
 
-func (tree *BinTree) height(node *BinNode) int {
+func (tree BinTree) height(node *BinNode) int {
 	if node == nil {
 		return 0
 	}
 	return 1 + tree.height(node.left)
 }
 
-func (tree *BinTree) Height() int {
+func (tree BinTree) Height() int {
 	if tree.root == nil {
 		return 0
 	}
 	return tree.height(tree.root) - 1
 }
 
-func (tree *BinTree) nodeExists(idxToFind int, height int) bool {
+func (tree BinTree) nodeExists(idxToFind int, height int) bool {
 	var left = 0
 	var right = int(math.Pow(2, float64(height))) - 1
 	var level = 0
@@ -147,7 +147,7 @@ func (tree *BinTree) nodeExists(idxToFind int, height int) bool {
 	return node != nil
 }
 
-func (tree *BinTree) CountNodes() int {
+func (tree BinTree) CountNodes() int {
 	if tree.root == nil {
 		return 0
 	}
@@ -167,4 +167,38 @@ func (tree *BinTree) CountNodes() int {
 		}
 	}
 	return upperCount + left + 1
+}
+
+func (tree BinTree) LevelOrder() [][]int {
+	levels := [][]int{}
+	if tree.root == nil {
+		return levels
+	}
+	queue := []*BinNode{}
+	queue = append(queue, tree.root)
+
+	for len(queue) > 0 {
+		var levelSize = len(queue)
+		var count = 0
+		level := []int{}
+
+		for count < levelSize {
+			var curr = queue[0]
+			queue = queue[1:]
+
+			level = append(level, curr.data)
+			count += 1
+
+			if curr.left != nil {
+				queue = append(queue, curr.left)
+			}
+
+			if curr.right != nil {
+				queue = append(queue, curr.right)
+			}
+		}
+
+		levels = append(levels, level)
+	}
+	return levels
 }
