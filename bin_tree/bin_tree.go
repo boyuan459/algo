@@ -1,6 +1,9 @@
 package bin_tree
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type BinNode struct {
 	data  int
@@ -108,4 +111,60 @@ func (tree *BinTree) depth(node *BinNode) int {
 
 func (tree *BinTree) Depth() int {
 	return tree.depth(tree.root)
+}
+
+func (tree *BinTree) height(node *BinNode) int {
+	if node == nil {
+		return 0
+	}
+	return 1 + tree.height(node.left)
+}
+
+func (tree *BinTree) Height() int {
+	if tree.root == nil {
+		return 0
+	}
+	return tree.height(tree.root) - 1
+}
+
+func (tree *BinTree) nodeExists(idxToFind int, height int) bool {
+	var left = 0
+	var right = int(math.Pow(2, float64(height))) - 1
+	var level = 0
+	var node = tree.root
+
+	for level < height && left <= right {
+		mid := int(math.Ceil(float64(left+right) / 2))
+		if idxToFind >= mid {
+			left = mid
+			node = node.right
+		} else {
+			right = mid - 1
+			node = node.left
+		}
+		level += 1
+	}
+	return node != nil
+}
+
+func (tree *BinTree) CountNodes() int {
+	if tree.root == nil {
+		return 0
+	}
+	var height = tree.Height()
+	if height == 0 {
+		return 1
+	}
+	var upperCount = int(math.Pow(2, float64(height))) - 1
+	var left, right = 0, upperCount
+	for left < right {
+		idxToFind := int(math.Ceil(float64(left+right) / 2))
+
+		if tree.nodeExists(idxToFind, height) {
+			left = idxToFind
+		} else {
+			right = idxToFind - 1
+		}
+	}
+	return upperCount + left + 1
 }
