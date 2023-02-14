@@ -50,3 +50,13 @@ func TestLevelOrder(t *testing.T) {
 		t.Errorf("expected [[3],[9,20],[15,7]], but got %v", levelOrder)
 	}
 }
+
+func TestRightSideViews(t *testing.T) {
+	tree := New()
+	tree.Insert([]int{3, 9, 20, -1, -1, 15, 7})
+	views := tree.RightSideViews()
+
+	if !reflect.DeepEqual([]int{3, 20, 7}, views) {
+		t.Errorf("expected [3 20 7], but got %v", views)
+	}
+}

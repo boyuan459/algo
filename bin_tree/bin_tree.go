@@ -202,3 +202,24 @@ func (tree BinTree) LevelOrder() [][]int {
 	}
 	return levels
 }
+
+func (tree BinTree) rightSideViews(node *BinNode, height int, views *[]int) {
+	if node == nil {
+		return
+	}
+	if len(*views) <= height {
+		*views = append(*views, node.data)
+	}
+	if node.right != nil {
+		tree.rightSideViews(node.right, height+1, views)
+	}
+	if node.left != nil {
+		tree.rightSideViews(node.left, height+1, views)
+	}
+}
+
+func (tree BinTree) RightSideViews() []int {
+	views := []int{}
+	tree.rightSideViews(tree.root, 0, &views)
+	return views
+}
