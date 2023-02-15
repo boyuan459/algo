@@ -14,7 +14,7 @@ func BackspaceCompare(s string, t string) bool {
 				backCount -= 1
 				p1 -= 1
 
-				if s[p1] == '#' {
+				if p1 >= 0 && s[p1] == '#' {
 					backCount += 2
 				}
 			}
@@ -27,12 +27,12 @@ func BackspaceCompare(s string, t string) bool {
 				backCount -= 1
 				p2 -= 1
 
-				if t[p2] == '#' {
+				if p2 >= 0 && t[p2] == '#' {
 					backCount += 2
 				}
 			}
 		}
-		if s[p1] != t[p2] {
+		if p1 >= 0 && p2 >= 0 && s[p1] != t[p2] {
 			return false
 		}
 

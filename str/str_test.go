@@ -3,7 +3,7 @@ package str
 import "testing"
 
 func TestBackspaceCompare(t *testing.T) {
-	var sr, ta = "ab#c", "ad#c"
+	var sr, ta = "ab##c", "ad##c"
 	var equal = BackspaceCompare(sr, ta)
 
 	if !equal {
