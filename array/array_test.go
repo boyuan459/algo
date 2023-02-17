@@ -32,3 +32,11 @@ func TestMaxArea(t *testing.T) {
 
 	t.Errorf("expected 49, but got %v", res)
 }
+
+func TestMoveZeros(t *testing.T) {
+	nums := []int{0, 1, 0, 3, 12}
+	MoveZeros(&nums)
+	if reflect.DeepEqual(nums, []int{1, 3, 12, 0, 0}) {
+		t.Errorf("expected [1, 3, 12, 0, 0], but got %v", nums)
+	}
+}
