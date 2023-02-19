@@ -1,6 +1,8 @@
 package matrix
 
-import "golang.org/x/exp/constraints"
+import (
+	"golang.org/x/exp/constraints"
+)
 
 var Directions = [][]int{
 	{-1, 0},
@@ -75,4 +77,42 @@ func (matrix Matrix[T]) BreathFirstTraverse() []T {
 	}
 
 	return values
+}
+
+func (matrix Matrix[T]) NumsOfIslands(island T, water T) int {
+	var count = 0
+	var rows = len(matrix.data)
+	var cols = len(matrix.data[0])
+
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			if matrix.data[i][j] == island {
+				count += 1
+				queue := [][]int{}
+				queue = append(queue, []int{i, j})
+
+				for len(queue) > 0 {
+					current := queue[0]
+					queue = queue[1:]
+
+					var row = current[0]
+					var col = current[1]
+
+					if row < 0 || row >= rows || col < 0 || col >= cols || matrix.data[row][col] == water {
+						continue
+					}
+					matrix.data[row][col] = water
+
+					for k := 0; k < len(Directions); k++ {
+						var nextRow = row + Directions[k][0]
+						var nextCol = col + Directions[k][1]
+
+						queue = append(queue, []int{nextRow, nextCol})
+					}
+				}
+			}
+		}
+	}
+
+	return count
 }
