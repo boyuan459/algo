@@ -1,5 +1,7 @@
 package matrix
 
+import "golang.org/x/exp/constraints"
+
 var Directions = [][]int{
 	{-1, 0},
 	{0, 1},
@@ -7,14 +9,39 @@ var Directions = [][]int{
 	{0, -1},
 }
 
-type Matrix[T any] struct {
+type Matrix[T constraints.Ordered] struct {
 	data [][]T
 }
 
-func New[T any](data [][]T) *Matrix[T] {
+func New[T constraints.Ordered](data [][]T) *Matrix[T] {
 	return &Matrix[T]{
 		data: data,
 	}
+}
+
+func (matrix Matrix[T]) _dfs(row int, col int, values *[]T, seen *map[[2]int]bool) {
+	if row < 0 || row >= len(matrix.data) || col < 0 || col >= len(matrix.data[0]) {
+		return
+	}
+	if _, ok := (*seen)[[2]int{row, col}]; ok {
+		return
+	}
+	*values = append(*values, matrix.data[row][col])
+	(*seen)[[2]int{row, col}] = true
+
+	for i := 0; i < len(Directions); i++ {
+		var nextRow = row + Directions[i][0]
+		var nextCol = col + Directions[i][1]
+		matrix._dfs(nextRow, nextCol, values, seen)
+	}
+}
+
+func (matrix Matrix[T]) DepthFirstTraverse() []T {
+	values := []T{}
+	seen := make(map[[2]int]bool)
+
+	matrix._dfs(0, 0, &values, &seen)
+	return values
 }
 
 func (matrix Matrix[T]) BreathFirstTraverse() []T {
