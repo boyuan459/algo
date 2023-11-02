@@ -1,5 +1,7 @@
 package graph
 
+import "fmt"
+
 type Graph struct {
 	length   int
 	adjList  [][]int
@@ -29,6 +31,43 @@ func (graph *Graph) BuildWith2D(values [][]int) {
 		graph.adjList[source] = append(graph.adjList[source], target)
 		graph.indegree[target]++
 	}
+}
+
+func (graph *Graph) BuildAdjList(values [][]int) {
+	for _, pair := range values {
+		var source = pair[0]
+		var target = pair[1]
+		graph.adjList[source] = append(graph.adjList[source], target)
+	}
+}
+
+func (graph *Graph) PossiblePartition() bool {
+	group := make([]int, graph.length+1)
+
+	for i := 1; i < graph.length; i++ {
+		if group[i] == 0 {
+			group[i] = 1
+			queue := make([]int, 0)
+			queue = append(queue, i)
+
+			for len(queue) > 0 {
+				current := queue[0]
+				queue = queue[1:]
+
+				for _, adj := range graph.adjList[current] {
+					// fmt.Println(adj)
+					if group[adj] == 0 {
+						group[adj] = group[current] * -1
+						queue = append(queue, adj)
+					} else if group[adj] == group[current] {
+						return false
+					}
+				}
+			}
+		}
+	}
+	fmt.Println(group)
+	return true
 }
 
 func (graph *Graph) AcyclicTopologicalSort() bool {

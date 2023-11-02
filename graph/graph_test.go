@@ -22,3 +22,21 @@ func TestGraph2D(t *testing.T) {
 		t.Errorf("expected true, got %v", acyclic)
 	}
 }
+
+func TestPossiblePartition(t *testing.T) {
+	graph := New(5)
+	graph.BuildAdjList([][]int{{1, 2}, {1, 3}, {2, 4}})
+	t.Log("graph", graph)
+	var pos = graph.PossiblePartition()
+	if pos != true {
+		t.Errorf("expected true, got %v", pos)
+	}
+
+	graph2 := New(4)
+	graph2.BuildAdjList([][]int{{1, 2}, {1, 3}, {2, 3}})
+	var pos2 = graph2.PossiblePartition()
+
+	if pos2 != false {
+		t.Errorf("expected false, got %v", pos2)
+	}
+}
