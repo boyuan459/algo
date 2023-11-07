@@ -60,3 +60,13 @@ func TestRightSideViews(t *testing.T) {
 		t.Errorf("expected [3 20 7], but got %v", views)
 	}
 }
+
+func TestDiameter(t *testing.T) {
+	tree := New()
+	tree.Insert([]int{3, 9, 20, -1, -1, 15, 7})
+	d := tree.Diameter()
+
+	if d != 3 {
+		t.Errorf("expected 3, but got %v", d)
+	}
+}

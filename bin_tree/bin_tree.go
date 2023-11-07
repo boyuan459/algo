@@ -223,3 +223,26 @@ func (tree BinTree) RightSideViews() []int {
 	tree.rightSideViews(tree.root, 0, &views)
 	return views
 }
+
+func (tree BinTree) diameter(node *BinNode, d *int) int {
+	if node == nil {
+		return 0
+	}
+	var ld = tree.diameter(node.left, d)
+	var rd = tree.diameter(node.right, d)
+
+	if ld+rd > *d {
+		*d = ld + rd
+	}
+
+	if ld > rd {
+		return ld + 1
+	}
+	return rd + 1
+}
+
+func (tree BinTree) Diameter() int {
+	var diameter = 0
+	tree.diameter(tree.root, &diameter)
+	return diameter
+}
