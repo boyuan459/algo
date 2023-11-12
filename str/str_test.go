@@ -1,6 +1,9 @@
 package str
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestBackspaceCompare(t *testing.T) {
 	var sr, ta = "ab##c", "ad##c"
@@ -26,5 +29,31 @@ func TestLengthOfLongestSubString(t *testing.T) {
 
 	if length2 != 1 {
 		t.Errorf("expected 1, but got %v", length2)
+	}
+}
+
+func TestIsPalidrome(t *testing.T) {
+	var s = "abcba"
+	var isPal = IsPalindrome(s)
+
+	if !isPal {
+		t.Errorf("expected true, but got %v", isPal)
+	}
+}
+
+func TestGroupAnagrams(t *testing.T) {
+	strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	values := GroupAnagram(strs)
+
+	expected := [][]string{
+		{"eat", "tea", "ate"},
+		{"tan", "nat"},
+		{"bat"},
+	}
+
+	if reflect.DeepEqual(values, expected) {
+		t.Logf("expected as %v", values)
+	} else {
+		t.Errorf("expected %v, but got %v", expected, values)
 	}
 }

@@ -1,6 +1,10 @@
 package str
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 func BackspaceCompare(s string, t string) bool {
 	var p1, p2 = len(s) - 1, len(t) - 1
@@ -65,4 +69,74 @@ func LengthOfLongestSubString(s string) int {
 
 	fmt.Println("---------------------------")
 	return maxLength
+}
+
+func IsPalindrome(s string) bool {
+	var l = 0
+	var r = len(s) - 1
+
+	for l < r {
+		if s[l] != s[r] {
+			return false
+		}
+		l++
+		r--
+	}
+	return true
+}
+
+const ALPHABET_SIZE = 26
+
+var MAP_ALPHABET = map[byte]int{
+	'a': 0,
+	'b': 1,
+	'c': 2,
+	'd': 3,
+	'e': 4,
+	'f': 5,
+	'g': 6,
+	'h': 7,
+	'i': 8,
+	'j': 9,
+	'k': 10,
+	'l': 11,
+	'm': 12,
+	'n': 13,
+	'o': 14,
+	'p': 15,
+	'q': 16,
+	'r': 17,
+	's': 18,
+	't': 19,
+	'u': 20,
+	'v': 21,
+	'w': 22,
+	'x': 23,
+	'y': 24,
+	'z': 25,
+}
+
+func GroupAnagram(strs []string) [][]string {
+	groups := make(map[string][]string)
+	for _, s := range strs {
+		letterCounts := make([]int, ALPHABET_SIZE)
+		for i := 0; i < len(s); i++ {
+			letterCounts[MAP_ALPHABET[s[i]]] += 1
+		}
+		letters := make([]string, ALPHABET_SIZE)
+		for i, count := range letterCounts {
+			letters[i] = strconv.Itoa(count)
+		}
+		hash := strings.Join(letters, "#")
+
+		groups[hash] = append(groups[hash], s)
+	}
+
+	fmt.Println(groups)
+
+	var values [][]string
+	for _, value := range groups {
+		values = append(values, value)
+	}
+	return values
 }
