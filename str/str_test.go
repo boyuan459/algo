@@ -57,3 +57,13 @@ func TestGroupAnagrams(t *testing.T) {
 		t.Errorf("expected %v, but got %v", expected, values)
 	}
 }
+
+func TestRomanToInteger(t *testing.T) {
+	s := "MCMXCIV"
+
+	sum := RomanToInteger(s)
+
+	if sum != 1994 {
+		t.Errorf("expected 1995, but got %v", sum)
+	}
+}
